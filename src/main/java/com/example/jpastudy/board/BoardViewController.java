@@ -32,7 +32,8 @@ public class BoardViewController {
 
     @GetMapping(path = "/list", params = "title")
     public String list(@RequestParam String title, @PageableDefault(size = 5, sort = "id", direction = DESC) Pageable pageable, Map<String, Object> model) {
-        model.put("boards", boardRepository.findAllByTitleContains(title, pageable));
+        model.put("boards", boardRepository.findAllByTitleStartsWith(title, pageable));
+        model.put("title", title);
         return "/board/list";
     }
 
