@@ -7,7 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER) // default
+    @ManyToOne(fetch = FetchType.EAGER) // default
     @JoinColumn(name = "orderer_id", nullable = false, referencedColumnName = "member_id")
     private Orderer orderer;
 
