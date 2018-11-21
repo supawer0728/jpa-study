@@ -1,5 +1,6 @@
 package com.example.jpastudy.member.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import lombok.NonNull;
 public class Member {
 
     @Id
+    @Column(name = "member_id")
     private String id;
     private String name;
 
