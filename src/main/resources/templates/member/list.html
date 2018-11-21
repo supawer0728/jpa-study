@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>회원 목록</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap-theme.min.css">
+  <script src="/webjars/jquery/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>이름</th>
+          <th>주소1</th>
+          <th>주소2</th>
+          <th>우편번호</th>
+        </tr>
+        </thead>
+        <tbody id="board-table-body">
+        {{#members}}
+        <tr>
+          <td><a href="/view/board/{{id}}/form">{{id}}</a></td>
+          <td><a href="/view/board/{{id}}/form">{{name}}</a></td>
+          <td><a href="/view/board/{{id}}/form">{{address.address1}}</a></td>
+          <td><a href="/view/board/{{id}}/form">{{address.address2}}</a></td>
+          <td><a href="/view/board/{{id}}/form">{{address.zipCode}}</a></td>
+        </tr>
+        {{/members}}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+</body>
+</html>
