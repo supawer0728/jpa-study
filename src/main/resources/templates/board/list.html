@@ -5,6 +5,7 @@
   <title>게시물 목록</title>
   <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap-theme.min.css">
+  <script src="/webjars/jquery/jquery.min.js"></script>
   <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -23,23 +24,31 @@
         <tbody id="board-table-body">
         {{#boards}}
         <tr>
-          <td>{{id}}</td>
-          <td>{{title}}</td>
-          <td>{{writer}}</td>
+          <td><a href="/view/board/{{id}}/form">{{id}}</a></td>
+          <td><a href="/view/board/{{id}}/form">{{title}}</a></td>
+          <td><a href="/view/board/{{id}}/form">{{writer}}</a></td>
         </tr>
         {{/boards}}
         </tbody>
       </table>
       <form class="form-inline">
         <div class="form-group">
-          <label for="title">title</label>
+          <label for="title">제목</label>
           <input type="text" class="form-control" id="title" name="title">
         </div>
         <button type="submit" class="btn btn-default">검색</button>
+        <button type="button" class="btn btn-primary" id="create-btn">등록</button>
       </form>
     </div>
     <div class="col-md-1"></div>
   </div>
 </div>
+<script>
+  $(function () {
+    $('#create-btn').click(function () {
+      location.href = '/view/board/form';
+    });
+  });
+</script>
 </body>
 </html>
