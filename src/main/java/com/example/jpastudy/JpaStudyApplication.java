@@ -5,6 +5,8 @@ import com.example.jpastudy.board.domain.Board.Param;
 import com.example.jpastudy.board.domain.BoardRepository;
 import com.example.jpastudy.member.domain.Member;
 import com.example.jpastudy.member.domain.MemberRepository;
+import com.example.jpastudy.order.domain.Order;
+import com.example.jpastudy.order.domain.OrderRepository;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ public class JpaStudyApplication implements ApplicationRunner {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final OrderRepository orderRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(JpaStudyApplication.class, args);
@@ -32,9 +35,14 @@ public class JpaStudyApplication implements ApplicationRunner {
         List<Member> members = EnhancedRandom.randomListOf(memberSize, Member.class);
         memberRepository.saveAll(members);
 
-        List<Board> initBoards = IntStream.range(0, 1000)
+        List<Board> initBoards = IntStream.range(0, 101)
                                           .mapToObj(number -> Board.create(new Param("title" + number, "content" + number, members.get(number % memberSize).getId())))
                                           .collect(Collectors.toList());
         boardRepository.saveAll(initBoards);
+
+        List<Order> orders = IntStream.range(0, 101)
+                                      .mapToObj(number -> Order.create(members.get(number % memberSize)))
+                                      .collect(Collectors.toList());
+        orderRepository.saveAll(orders);
     }
 }

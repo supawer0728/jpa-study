@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>주문 목록</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap-theme.min.css">
+  <script src="/webjars/jquery/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>주문번호</th>
+          <th>주문자</th>
+        </tr>
+        </thead>
+        <tbody id="board-table-body">
+        {{#orders}}
+        <tr>
+          <td><a href="/view/board/{{id}}/form">{{id}}</a></td>
+          <td><a href="/view/board/{{id}}/form">{{orderer.name}}</a></td>
+        </tr>
+        {{/orders}}
+        </tbody>
+      </table>
+      <nav id="pagination" class="text-center" data-page-number="{{orders.number}}" data-total-pages="{{orders.totalPages}}"></nav>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>
+<script>
+  $(function () {
+    initPagination();
+
+    function initPagination() {
+      var pageNav = $('#pagination');
+      var number = parseInt(pageNav.data('page-number'));
+      var totalPages = parseInt(pageNav.data('total-pages'));
+      var startNumber = (Math.floor(number / 10) * 10) + 1;
+      var endNumber = Math.min((startNumber + 9), totalPages);
+
+      var html = ['<ul class="pagination">'];
+
+      var previousClass = (number === 0) ? 'disabled' : '';
+      html.push('<li data-page="' + 1 + '" class="' + previousClass + '"><a href="javascript:;" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+
+      for (var i = startNumber; i <= endNumber; i++) {
+        var active = i === (number + 1) ? 'active' : '';
+        html.push('<li data-page="' + i + '" class="' + active + '"><a href="javascript:;">' + i + '</a></li>');
+      }
+
+      var nextClass = (number === (totalPages - 1)) ? 'diabled' : '';
+      var nextPage = Math.min((startNumber + 10), totalPages);
+      html.push('<li data-page="' + nextPage + '" class="' + nextClass + '"><a href="javascript:;" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
+
+      html.push("</ul>");
+
+      pageNav.html(html.join(''));
+      pageNav.find('li').click(function (e) {
+        var data = {
+          'title': $('input[name="title"]').val(),
+          'page': $(e.currentTarget).data('page')
+        };
+
+        location.href = '/view/order/list?' + $.param(data);
+      });
+    }
+  });
+</script>
+</body>
+</html>

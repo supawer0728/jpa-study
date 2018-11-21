@@ -1,12 +1,12 @@
-package com.example.jpastudy.member.domain;
+package com.example.jpastudy.order.domain;
 
+import com.example.jpastudy.member.domain.Member;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -14,19 +14,16 @@ import lombok.NonNull;
 @Table(name = "member")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@EqualsAndHashCode
-public class Member {
+public class Orderer {
 
     @Id
     @Column(name = "member_id")
     private String id;
     private String name;
 
-    @Embedded
-    private Address address;
-
-    public void changeAddress(@NonNull Address newAddress) {
-        this.address = newAddress;
+    protected static Orderer fromMember(@NonNull Member member) {
+        return new Orderer(member.getId(), member.getName());
     }
 }
