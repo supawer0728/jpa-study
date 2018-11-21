@@ -1,25 +1,31 @@
 package com.example.jpastudy;
 
-import java.util.Map;
+import com.example.jpastudy.board.domain.Board;
+import com.example.jpastudy.board.domain.BoardRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
+@RequiredArgsConstructor
 @SpringBootApplication
-public class JpaStudyApplication {
+public class JpaStudyApplication implements ApplicationRunner {
+
+    private final BoardRepository boardRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(JpaStudyApplication.class, args);
     }
 
-    @Controller
-    public static class MainController {
-
-        @GetMapping("/")
-        public String main(Map<String, Object> model) {
-            model.put("name", "Guest");
-            return "/index";
-        }
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        List<Board> initBoards = IntStream.range(0, 20)
+                                          .mapToObj(number -> Board.create("title" + number, "content" + number, "writer" + number))
+                                          .collect(Collectors.toList());
+        boardRepository.saveAll(initBoards);
     }
 }
