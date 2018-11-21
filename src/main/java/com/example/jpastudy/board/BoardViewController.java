@@ -1,10 +1,14 @@
 package com.example.jpastudy.board;
 
+import static org.springframework.data.domain.Sort.Direction.DESC;
+
 import com.example.jpastudy.board.application.BoardService;
 import com.example.jpastudy.board.domain.Board;
 import com.example.jpastudy.board.domain.BoardRepository;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,14 +25,14 @@ public class BoardViewController {
     private final BoardRepository boardRepository;
 
     @GetMapping("/list")
-    public String list(Map<String, Object> model) {
-        model.put("boards", boardRepository.findAll());
+    public String list(@PageableDefault(size = 5, sort = "id", direction = DESC) Pageable pageable, Map<String, Object> model) {
+        model.put("boards", boardRepository.findAll(pageable));
         return "/board/list";
     }
 
     @GetMapping(path = "/list", params = "title")
-    public String list(@RequestParam String title, Map<String, Object> model) {
-        model.put("boards", boardRepository.findAllByTitleContains(title));
+    public String list(@RequestParam String title, @PageableDefault(size = 5, sort = "id", direction = DESC) Pageable pageable, Map<String, Object> model) {
+        model.put("boards", boardRepository.findAllByTitleContains(title, pageable));
         return "/board/list";
     }
 

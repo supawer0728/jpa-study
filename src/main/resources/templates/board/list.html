@@ -31,7 +31,8 @@
         {{/boards}}
         </tbody>
       </table>
-      <form class="form-inline">
+      <nav id="pagination" class="text-center" data-page-number="{{boards.number}}" data-total-pages="{{boards.totalPages}}"></nav>
+      <form class="form-inline text-right">
         <div class="form-group">
           <label for="title">제목</label>
           <input type="text" class="form-control" id="title" name="title">
@@ -48,6 +49,42 @@
     $('#create-btn').click(function () {
       location.href = '/view/board/form';
     });
+
+    initPagination();
+
+    function initPagination() {
+      var pageNav = $('#pagination');
+      var number = parseInt(pageNav.data('page-number'));
+      var totalPages = parseInt(pageNav.data('total-pages'));
+      var startNumber = (Math.floor(number / 10) * 10) + 1;
+      var endNumber = Math.min((startNumber + 9), totalPages);
+
+      var html = ['<ul class="pagination">'];
+
+      var previousClass = (number === 0) ? 'disabled' : '';
+      html.push('<li data-page="' + 1 + '" class="' + previousClass + '"><a href="javascript:;" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+
+      for (var i = startNumber; i <= endNumber; i++) {
+        var active = i === (number + 1) ? 'active' : '';
+        html.push('<li data-page="' + i + '" class="' + active + '"><a href="javascript:;">' + i + '</a></li>');
+      }
+
+      var nextClass = (number === (totalPages - 1)) ? 'diabled' : '';
+      var nextPage = Math.min((startNumber + 10), totalPages);
+      html.push('<li data-page="' + nextPage + '" class="' + nextClass + '"><a href="javascript:;" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
+
+      html.push("</ul>");
+
+      pageNav.html(html.join(''));
+      pageNav.find('li').click(function (e) {
+        var data = {
+          'title': $('input[name="title"]').val(),
+          'page': $(e.currentTarget).data('page')
+        };
+
+        location.href = '/view/board/list?' + $.param(data);
+      });
+    }
   });
 </script>
 </body>
