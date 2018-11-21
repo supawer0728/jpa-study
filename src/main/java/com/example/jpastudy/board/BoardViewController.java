@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -17,6 +18,12 @@ public class BoardViewController {
     @GetMapping("/list")
     public String list(Map<String, Object> model) {
         model.put("boards", boardRepository.findAll());
+        return "/board/list";
+    }
+
+    @GetMapping(path = "/list", params = "title")
+    public String list(@RequestParam String title, Map<String, Object> model) {
+        model.put("boards", boardRepository.findAllByTitleContains(title));
         return "/board/list";
     }
 }
