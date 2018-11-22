@@ -17,14 +17,16 @@
         <thead>
         <tr>
           <th>주문번호</th>
+          <th>주문상태</th>
           <th>주문자</th>
         </tr>
         </thead>
         <tbody id="board-table-body">
         {{#orders}}
         <tr>
-          <td><a href="/view/board/{{id}}/form">{{id}}</a></td>
-          <td><a href="/view/board/{{id}}/form">{{orderer.name}}</a></td>
+          <td><a href="/view/order/{{id}}">{{id}}</a></td>
+          <td><a href="/view/order/{{id}}">{{status.description}}</a></td>
+          <td><a href="/view/order/{{id}}">{{orderer.name}}</a></td>
         </tr>
         {{/orders}}
         </tbody>

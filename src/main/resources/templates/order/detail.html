@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>주문 상세</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap-theme.min.css">
+  <script src="/webjars/jquery/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 table-responsive">
+      {{#order}}
+      <h3>{{id}} <span class="label label-default">{{status.description}}</span></h3>
+      {{/order}}
+      <table class="table">
+        <thead>
+        <tr>
+          <th>상품명</th>
+          <th>주문량</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#order.orderLines}}
+        <tr>
+          <td>{{productName}}</td>
+          <td>{{quantity}}</td>
+        </tr>
+        {{/order.orderLines}}
+        </tbody>
+      </table>
+      <a class="btn btn-default" href="/view/order/list" role="button">주문 목록</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
