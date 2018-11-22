@@ -37,17 +37,13 @@
           <input type="text" class="form-control" id="title" name="title" value="{{title}}">
         </div>
         <button type="submit" class="btn btn-default">검색</button>
-        <button type="button" class="btn btn-primary" id="create-btn">등록</button>
+        <a role="button" class="btn btn-primary" href="/view/board/form">등록</a>
       </form>
     </div>
   </div>
 </div>
 <script>
   $(function () {
-    $('#create-btn').click(function () {
-      location.href = '/view/board/form';
-    });
-
     initPagination();
 
     function initPagination() {

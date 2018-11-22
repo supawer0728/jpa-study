@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@Slf4j
 @RequiredArgsConstructor
 @SpringBootApplication
 public class JpaStudyApplication implements ApplicationRunner {
@@ -32,9 +34,11 @@ public class JpaStudyApplication implements ApplicationRunner {
         List<Member> members = EnhancedRandom.randomListOf(memberSize, Member.class);
         memberRepository.saveAll(members);
 
-        List<Board> initBoards = IntStream.range(0, 1000)
+        List<Board> initBoards = IntStream.range(0, 51)
                                           .mapToObj(number -> Board.create(new Param("title" + number, "content" + number, members.get(number % memberSize).getId())))
                                           .collect(Collectors.toList());
         boardRepository.saveAll(initBoards);
+
+        log.info("DUMMY DATA INITIALIZED");
     }
 }
