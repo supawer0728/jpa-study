@@ -24,7 +24,7 @@ public class JpaStudyApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        List<Board> initBoards = IntStream.range(0, 20)
+        List<Board> initBoards = IntStream.range(0, 51)
                                           .mapToObj(number -> Board.create(new Param("title" + number, "content" + number, "writer" + number)))
                                           .collect(Collectors.toList());
         boardRepository.saveAll(initBoards);
