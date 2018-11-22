@@ -32,7 +32,7 @@ public class JpaStudyApplication implements ApplicationRunner {
         List<Member> members = EnhancedRandom.randomListOf(memberSize, Member.class);
         memberRepository.saveAll(members);
 
-        List<Board> initBoards = IntStream.range(0, 20)
+        List<Board> initBoards = IntStream.range(0, 51)
                                           .mapToObj(number -> Board.create(new Param("title" + number, "content" + number, members.get(number % memberSize).getId())))
                                           .collect(Collectors.toList());
         boardRepository.saveAll(initBoards);
