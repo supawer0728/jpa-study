@@ -6,7 +6,9 @@ import com.example.jpastudy.board.application.BoardService;
 import com.example.jpastudy.board.domain.Board;
 import com.example.jpastudy.board.domain.BoardRepository;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequiredArgsConstructor
 @Controller
@@ -35,6 +38,14 @@ public class BoardViewController {
         model.put("boards", boardRepository.findAllByTitleStartsWith(title, pageable));
         model.put("title", title);
         return "/board/list";
+    }
+
+    @ResponseBody
+    @GetMapping(path = "/list.json")
+    public Page<Board> list(@RequestParam(required = false) String title, @PageableDefault(size = 5, sort = "id", direction = DESC) Pageable pageable) {
+        return Optional.ofNullable(title)
+                       .map(t -> boardRepository.findAllByTitleContains(t, pageable))
+                       .orElseGet(() -> boardRepository.findAll(pageable));
     }
 
     @GetMapping("/form")
